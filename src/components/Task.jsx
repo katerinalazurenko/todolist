@@ -5,8 +5,10 @@ import {useState, useEffect} from "react";
 
 export function Task({task, onUpdateTask}) {
 
+    /**Локальное состояние отображения загруженных файлов**/
     const [paths, setPaths] = useState('')
 
+    /**Изменение типа данных состояния отображения загруженных файлов из массива в строку**/
     useEffect(() => {
         if(task.filesPath){
             const p = task.filesPath.map(path => {
@@ -18,7 +20,10 @@ export function Task({task, onUpdateTask}) {
         }
     }, [task.filesPath, paths])
 
-
+    /**
+     * Функция удаления задачи
+     * @param {key} - Ключ задачи
+     */
     const onDeleteTask = (key) => {
         remove(ref(db, `tasks/${key}`));
         if(task.filesPath){
@@ -32,6 +37,7 @@ export function Task({task, onUpdateTask}) {
         }
     }
 
+    /**Функция загрудки файлов,открывает загруженные файлы в новом окне**/
     const onDownloadFiles = () => {
         task.filesPath.map(path => {
             getDownloadURL(sRef(storage, `${path}`))

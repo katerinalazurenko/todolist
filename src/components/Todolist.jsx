@@ -6,11 +6,16 @@ import {AddForm} from "./AddForm";
 import dayjs from "dayjs";
 
 export function Todolist() {
+    /**Локальное состояние списка всех задач**/
     const [tasksData, setTasksData] = useState([])
+    /**Локальное состояние формы**/
     const [showForm, setShowForm] = useState(false)
+    /**Локальное состояние режима редактирования**/
     const [editMode, setEditMode] = useState(false)
+    /**Локальное состояние редактируемой задачи**/
     const [updatedTask, setUpdatedTask] = useState()
 
+    /**Выведение списка данных из базы данных**/
     useEffect(() => {
         const tasksUnsubscribe = onValue(getTasks(), (snapshot) => {
             const arr = []
@@ -28,6 +33,7 @@ export function Todolist() {
         };
     },[]);
 
+    /**Смена статуса на overdue если срок задачи истек**/
     useEffect(() => {
         tasksData.map(task => {
             const today = dayjs()
@@ -37,6 +43,7 @@ export function Todolist() {
         })
     },[tasksData]);
 
+    /**Получение редактируемой задачи**/
     const onUpdateTask = (key) => {
         setShowForm(true)
         setEditMode(true)
@@ -44,6 +51,7 @@ export function Todolist() {
         setUpdatedTask(task)
     }
 
+    /**Открытие окна формы при добавлении новой задачи**/
     const onAddTask = () =>{
         setShowForm(true)
     }

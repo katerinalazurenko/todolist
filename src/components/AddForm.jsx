@@ -9,12 +9,15 @@ export function AddForm({setShowForm, task}) {
     let calendar = require('dayjs/plugin/calendar')
     dayjs.extend(calendar)
 
+    /**Локальные состояния инпутов**/
     const [status, setStatus] = useState('new')
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [deadline, setDeadline] = useState(dayjs().calendar(dayjs('')))
+    /**Доступ к элементу загрузки файлов**/
     const fileInput = useRef();
 
+    /**Установка актуальных значений задачи для их изменения**/
     useEffect(() => {
         if(task){
             setStatus(task.status)
@@ -24,6 +27,10 @@ export function AddForm({setShowForm, task}) {
         }
     }, [task])
 
+    /**
+     * Функция отправки данных
+     * @param {e} a - Событие формы
+     */
     const handleData = (e) => {
         e.preventDefault();
         const files = Object.values(fileInput.current.files)
